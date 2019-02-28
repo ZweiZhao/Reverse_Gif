@@ -12,7 +12,7 @@
 
 * uplaod gif
 
-  lick input to upload a gif, then wait...
+  click input to upload a gif, then wait...
 
 * show result
 
