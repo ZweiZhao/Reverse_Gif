@@ -1,5 +1,7 @@
 # Reverse Gif js
 
+![Preview](./preview.gif)
+
 ## Use
 
 **Best way:** open [Reverse_Gif](https://www.zweizhao.com/Reverse_Gif/)
