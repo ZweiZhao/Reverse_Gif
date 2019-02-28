@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Git Lib</title>
+  <style>
+    body {
+      display: flex;
+      margin: 0;
+    }
+    #canvas {
+      position: absolute;
+      left: -1000px;
+    }
+  </style>
+</head>
+
+<body>
+  <img id="img" src="beer.gif" rel:animated_src="beer.gif" rel:auto_play="1" rel:rubbable="1" />
+  <canvas id="canvas"></canvas>
+  <img id="result">
+  <script src="gif.js"></script>
+  <script src="libgif.js"></script>
+  <script>
+    let img = document.querySelector('#img')
+    let width = img.width
+    let rub = new SuperGif({ gif: img })
+    let img_list = []
+    let canvas = document.querySelector('#canvas')
+    let ctx = canvas.getContext('2d')
+
+    canvas.width = img.width
+    canvas.height = img.height
+
+    let gif = new GIF({
+      workers: 10,
+      quality: 30,
+      workerScript: "gif.worker.js",
+      // transparent: "#fff",
+      // background: '#ffffff',
+    })
+    gif.on("finished", function(blob) {
+      console.log(URL.createObjectURL(blob))
+      let file = new FileReader()
+      file.readAsDataURL(blob)
+      file.onload = function() {
+        document.getElementById("result").setAttribute("src", file.result)
+      }
+    })
+
+    rub.load(function(e) {
+      for(let i = 0; i < rub.get_length(); i++) {
+        // 遍历gif实例的每一帧
+        rub.move_to(i)
+        let cur_file = this.convertCanvasToImage(rub.get_canvas(), 'new' + i)
+        img_list.push({
+          file_name: cur_file.name,
+          url: URL.createObjectURL(cur_file),
+          file: cur_file,
+        })
+      }
+      console.log(img_list)
+      let imgObjList = []
+      let count = 0
+      img_list = img_list.reverse()
+      for(let i = 0; i < img_list.length; i++) {
+        let tmpImg = new Image()
+        imgObjList.push(tmpImg)
+        tmpImg.src = img_list[i].url
+        tmpImg.onload = function() {
+          count++
+          if(count === img_list.length) {
+            generateGif(imgObjList)
+          }
+        }
+      }
+    })
+
+    // 路径转文件
+    function dataURLtoFile(dataurl, filename) {
+      let arr = dataurl.split(',')
+      let mime = arr[0].match(/:(.*?);/)[1]
+      let bstr = atob(arr[1])
+      let n = bstr.length
+      let u8arr = new Uint8Array(n)
+      while(n--) {
+        u8arr[n] = bstr.charCodeAt(n)
+      }
+      return new File([u8arr], filename, { type: mime })
+    }
+
+    // 将canvas转换成file对象
+    function convertCanvasToImage(canvas, filename) {
+      return this.dataURLtoFile(canvas.toDataURL('image/png'), filename);
+    }
+
+    // 生成gif
+    function generateGif(imgObjList) {
+      for(let i = 0; i < imgObjList.length; i++) {
+        ctx.save();
+        ctx.drawImage(img, 50, 100, 220, 220);
+        ctx.drawImage(imgObjList[i], 0, 0, canvas.width, canvas.height);
+        ctx.restore();
+        gif.addFrame(canvas, { copy: true, delay: 100 })
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+      }
+      gif.render();
+    }
+  </script>
+</body>
+
+</html>
