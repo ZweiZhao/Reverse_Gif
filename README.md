@@ -2,6 +2,8 @@
 
 ## Use
 
+**Best way:** open [Reverse_Gif](https://www.zweizhao.com/Reverse_Gif/)
+
 1. service the index.html
 
   service the index.html, like `anywhere` and `live-server`:
