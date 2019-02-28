@@ -4,17 +4,17 @@
 
 **Best way:** open [Reverse_Gif](https://www.zweizhao.com/Reverse_Gif/)
 
-1. service the index.html
+* service the index.html
 
   service the index.html, like `anywhere` and `live-server`:
 
   `anywhere index.html` or `live-server` else use yourself service.
 
-2. uplaod gif
+* uplaod gif
 
   lick input to upload a gif, then wait...
 
-3. show result
+* show result
 
   wait...
 
