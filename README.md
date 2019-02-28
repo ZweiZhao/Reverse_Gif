@@ -1,5 +1,9 @@
 # Reverse Gif
 
+## Important
+
+**Gif must less than 5M size.**
+
 ## Preview
 
 ![Preview](./preview.gif)
