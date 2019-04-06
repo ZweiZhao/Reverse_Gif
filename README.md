@@ -10,7 +10,7 @@
 
 ## Use
 
-**Best way:** open [Reverse_Gif](https://www.zweizhao.com/Reverse_Gif/)
+**Best way:** open [Reverse_Gif](https://kvker.github.io/Reverse_Gif/)
 
 * service the index.html
 
